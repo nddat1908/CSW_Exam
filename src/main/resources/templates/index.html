@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ABC Shop</title>
+</head>
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
+<body>
+
+<h2>List Product</h2>
+<table id="list-product">
+
+</table>
+
+<script>
+    const API = "http://localhost:8080/api/product";
+
+    const listProducts = document.querySelector("#list-product");
+
+    const requestApi = async (callBack) => {
+        const response = await fetch(API);
+        const { data } = await response.json();
+        callBack(data);
+    };
+
+    const renderListProduct = (listProduct) => {
+        if (!listProduct) return;
+        const products = listProduct
+            .map((product) => {
+                return `<tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Quantity</th>
+    </tr>
+    <tr>
+        <td>${product.name}</td>
+        <td>${product.price}</td>
+        <td>${product.quantity}</td>
+    </tr>
+           `;
+            })
+            console.log(products)
+            .join("");
+        listProducts.innerHTML = products;
+    };
+
+    requestApi(renderListProduct);
+</script>
+</body>
+</html>
